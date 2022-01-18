@@ -1,38 +1,50 @@
+$font-size: 10px;
+$main-font: 'Raleway', sans-serif;
+$default-color: hsl(0, 0%, 20%);
+
+:root {
+  --font-size: #{$font-size};
+  --main-font: #{$main-font};
+  --default-color: #{$default-color};
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
+html {
+  font-size: var(--font-size);
+}
+
+body {
+  font-family: var(--main-font);
+  font-size: 1.6rem;
+}
+
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--default-color);
+  color: var(--default-color);
+  transition: all 500ms ease;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.quote-box {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  text-align: center;
+  width: 50rem;
+  height: 30rem;
+  background: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.quote-text {
+  padding: 2rem;
 }
