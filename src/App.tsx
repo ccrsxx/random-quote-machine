@@ -1,18 +1,20 @@
 import { Component } from 'react';
 import './App.scss';
-import loading from './loading.svg';
+import loading from './loading2.svg';
 
-interface AppProps {}
+interface DefaultData {
+  quoteData: { quote: string; author: string };
+}
 
 interface AppStates {
-  currentQuote: null | { quote: string; author: string };
+  currentQuote: null | DefaultData['quoteData'];
   currentColor: null | string;
-  quotes: { quote: string; author: string }[];
+  quotes: DefaultData['quoteData'][];
   colors: string[];
 }
 
-class RandomQuoteMachine extends Component<AppProps, AppStates> {
-  constructor(props: AppProps) {
+class RandomQuoteMachine extends Component<{}, AppStates> {
+  constructor(props: {}) {
     super(props);
     this.state = {
       currentQuote: null,
@@ -33,6 +35,7 @@ class RandomQuoteMachine extends Component<AppProps, AppStates> {
         '#73A857'
       ]
     };
+    this.getRandomQuote = this.getRandomQuote.bind(this);
   }
 
   componentDidMount() {
@@ -51,9 +54,23 @@ class RandomQuoteMachine extends Component<AppProps, AppStates> {
   }
 
   getRandomQuote() {
-    const [quote, color] = [this.state.quotes, this.state.colors].map(
-      (item) => item[Math.floor(Math.random() * item.length)]
-    ) as [{ quote: string; author: string }, string];
+    let currentData: [AppStates['currentQuote'], AppStates['currentColor']] = [
+      this.state.currentQuote,
+      this.state.currentColor
+    ];
+
+    let [quote, color] = currentData;
+
+    while (
+      this.state.currentQuote === quote ||
+      this.state.currentColor === color
+    ) {
+      currentData = [this.state.quotes, this.state.colors].map(
+        (item) => item[Math.floor(Math.random() * item.length)]
+      ) as [DefaultData['quoteData'], string];
+      [quote, color] = currentData;
+    }
+
     this.setState({
       currentQuote: quote,
       currentColor: color
@@ -61,26 +78,41 @@ class RandomQuoteMachine extends Component<AppProps, AppStates> {
   }
 
   render() {
+    const [quoteData, currentColor] = [
+      this.state.currentQuote,
+      this.state.currentColor
+    ] as [DefaultData['quoteData'], string];
+
+    const mainColor = currentColor
+      ? { color: currentColor, background: currentColor }
+      : undefined;
+
     return (
-      <div className='App'>
-        <div id='quote-box' className='quote-box'>
+      <div className='App' style={mainColor}>
+        <figure id='quote-box' className='quote-box'>
           {!this.state.currentQuote ? (
             <img src={loading} alt='loading' />
           ) : (
             <>
-              <div id='text' className='quote-text'>
-                {this.state.currentQuote.quote}
-              </div>
-              <div id='author' className='quote-author'>
-                {this.state.currentQuote.author}
-              </div>
-              <div className='button-wrapper'>
-                <a href='#' id='tweet-quote'></a>
-                <a href='#' id='new-quote'></a>
+              <blockquote id='text' className='quote-text'>
+                {quoteData.quote}
+              </blockquote>
+              <figcaption id='author' className='quote-author'>
+                - {quoteData.author}
+              </figcaption>
+              <div className='button-wrapper' onClick={this.getRandomQuote}>
+                <a id='tweet-quote' className='tweet-quote'></a>
+                <a
+                  id='new-quote'
+                  className='new-quote'
+                  style={{ background: currentColor }}
+                >
+                  New quote
+                </a>
               </div>
             </>
           )}
-        </div>
+        </figure>
       </div>
     );
   }
