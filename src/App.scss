@@ -18,18 +18,43 @@ html {
   font-size: var(--font-size);
 }
 
+@media screen and (max-width: 1200px) {
+  html {
+    font-size: 60%;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  html {
+    font-size: 58%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  html {
+    font-size: 55%;
+  }
+}
+
 body {
   font: 1.6rem/1.4 var(--main-font);
 }
 
+a {
+  text-decoration: none;
+  color: white;
+}
+
 .App {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background-color: var(--default-color);
   color: var(--default-color);
-  transition: all 2s ease-out;
+  transition: all 1s ease-out;
+  transition-property: background color;
 }
 
 .quote-box {
@@ -37,11 +62,20 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 55rem;
+  max-width: 55rem;
   min-height: 30rem;
   padding: 4rem;
+  margin: 2rem;
   border-radius: 4px;
   background: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+  transition: all 200ms ease-out;
+  transition-property: box-shadow transform;
+}
+
+.quote-box:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+  transform: translateY(-5px);
 }
 
 .quote-text {
@@ -66,25 +100,51 @@ body {
 }
 
 .button-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   margin-top: 2rem;
-  align-self: flex-end;
 
   a {
     cursor: pointer;
     font-size: 1.4rem;
-    background: var(--default-color);
-    color: white;
-    text-decoration: none;
+    padding: 1rem;
     border-radius: 4px;
-    transition: all 2s ease-out, opacity 200ms ease-out;
+    transition: background 2s ease-out, opacity 200ms ease-out;
   }
 
   a:hover {
-    opacity: 80%;
+    opacity: 0.8;
   }
 }
 
 .new-quote {
   background: var(--default-color);
-  padding: 1rem;
+}
+
+.tweet-quote {
+  background: #5da9dd;
+}
+
+.fade {
+  animation: fade 1s ease-out;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.footer {
+  font-size: 1.8rem;
+  color: white;
+  margin-top: 2rem;
+
+  a:hover {
+    text-decoration: underline;
+  }
 }

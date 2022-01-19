@@ -1,12 +1,13 @@
 import { Component } from 'react';
 import './App.scss';
-import loading from './loading2.svg';
+import loading from './loading.svg';
 
 interface DefaultData {
   quoteData: { quote: string; author: string };
 }
 
 interface AppStates {
+  fade: boolean;
   currentQuote: null | DefaultData['quoteData'];
   currentColor: null | string;
   quotes: DefaultData['quoteData'][];
@@ -17,6 +18,7 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
   constructor(props: {}) {
     super(props);
     this.state = {
+      fade: false,
       currentQuote: null,
       currentColor: null,
       quotes: [],
@@ -35,7 +37,7 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
         '#73A857'
       ]
     };
-    this.getRandomQuote = this.getRandomQuote.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -49,7 +51,9 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
 
   componentDidUpdate() {
     if (!this.state.currentQuote) {
-      this.getRandomQuote();
+      setTimeout(() => {
+        this.getRandomQuote();
+      }, 500);
     }
   }
 
@@ -77,7 +81,16 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
     });
   }
 
+  handleClick() {
+    this.setState({
+      fade: true
+    });
+    this.getRandomQuote();
+  }
+
   render() {
+    const fade = this.state.fade ? 'fade' : '';
+
     const [quoteData, currentColor] = [
       this.state.currentQuote,
       this.state.currentColor
@@ -87,25 +100,42 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
       ? { color: currentColor, background: currentColor }
       : undefined;
 
+    const parsedText = quoteData
+      ? quoteData.quote.replace(' ', '%20')
+      : undefined;
+
     return (
       <div className='App' style={mainColor}>
         <figure id='quote-box' className='quote-box'>
           {!this.state.currentQuote ? (
-            <img src={loading} alt='loading' />
+            <img src={loading} alt='loading logo' />
           ) : (
             <>
-              <blockquote id='text' className='quote-text'>
+              <blockquote
+                id='text'
+                className={`quote-text ${fade}`}
+                onAnimationEnd={() => this.setState({ fade: false })}
+              >
                 {quoteData.quote}
               </blockquote>
               <figcaption id='author' className='quote-author'>
                 - {quoteData.author}
               </figcaption>
-              <div className='button-wrapper' onClick={this.getRandomQuote}>
-                <a id='tweet-quote' className='tweet-quote'></a>
+              <div className='button-wrapper'>
+                <a
+                  id='tweet-quote'
+                  className='tweet-quote'
+                  href={`https://twitter.com/intent/tweet?text=${parsedText}`}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  <i className='fab fa-twitter'></i> Tweet this!
+                </a>
                 <a
                   id='new-quote'
                   className='new-quote'
                   style={{ background: currentColor }}
+                  onClick={this.handleClick}
                 >
                   New quote
                 </a>
@@ -113,6 +143,9 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
             </>
           )}
         </figure>
+        <footer className='footer'>
+          by <a href='https://ccrsxx.github.io/#contact'>ccrsxx</a>
+        </footer>
       </div>
     );
   }
