@@ -1,6 +1,12 @@
 import { Component } from 'react';
-import './App.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faClipboard,
+  faClipboardCheck
+} from '@fortawesome/free-solid-svg-icons';
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import loading from './loading.svg';
+import './App.scss';
 
 interface DefaultData {
   quoteData: { quote: string; author: string };
@@ -8,6 +14,7 @@ interface DefaultData {
 
 interface AppStates {
   fade: boolean;
+  copy: boolean;
   currentQuote: null | DefaultData['quoteData'];
   currentColor: null | string;
   quotes: DefaultData['quoteData'][];
@@ -19,6 +26,7 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
     super(props);
     this.state = {
       fade: false,
+      copy: false,
       currentQuote: null,
       currentColor: null,
       quotes: [],
@@ -38,6 +46,7 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
       ]
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleCopy = this.handleCopy.bind(this);
   }
 
   componentDidMount() {
@@ -88,6 +97,22 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
     this.getRandomQuote();
   }
 
+  handleCopy() {
+    navigator.clipboard.writeText(
+      `${this.state.currentQuote?.quote} From ${this.state.currentQuote?.author}.`
+    );
+
+    this.setState({
+      copy: true
+    });
+
+    setTimeout(() => {
+      this.setState({
+        copy: false
+      });
+    }, 2000);
+  }
+
   render() {
     const fade = this.state.fade ? 'fade' : '';
 
@@ -101,8 +126,8 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
       : undefined;
 
     const parsedText = quoteData
-      ? quoteData.quote.replace(' ', '%20')
-      : undefined;
+      ? `${quoteData.quote} From ${quoteData.author}.`
+      : '';
 
     return (
       <div className='App' style={mainColor}>
@@ -129,8 +154,17 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
                   target='_blank'
                   rel='noopener noreferrer'
                 >
-                  <i className='fab fa-twitter'></i> Tweet this!
+                  <FontAwesomeIcon icon={faTwitter} /> Tweet
                 </a>
+                {!this.state.copy ? (
+                  <a className='copy-to-clipboard' onClick={this.handleCopy}>
+                    <FontAwesomeIcon icon={faClipboard} /> Copy
+                  </a>
+                ) : (
+                  <a className='copy-to-clipboard copied'>
+                    <FontAwesomeIcon icon={faClipboardCheck} /> Copied!
+                  </a>
+                )}
                 <a
                   id='new-quote'
                   className='new-quote'
