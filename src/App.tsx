@@ -143,7 +143,7 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
               >
                 {quoteData.quote}
               </blockquote>
-              <figcaption id='author' className='quote-author'>
+              <figcaption id='author' className={`quote-author ${fade}`}>
                 - {quoteData.author}
               </figcaption>
               <div className='button-wrapper'>
@@ -157,28 +157,38 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
                   <FontAwesomeIcon icon={faTwitter} /> Tweet
                 </a>
                 {!this.state.copy ? (
-                  <a className='copy-to-clipboard' onClick={this.handleCopy}>
+                  <button
+                    className='copy-to-clipboard'
+                    onClick={this.handleCopy}
+                  >
                     <FontAwesomeIcon icon={faClipboard} /> Copy
-                  </a>
+                  </button>
                 ) : (
-                  <a className='copy-to-clipboard copied'>
+                  <button className='copy-to-clipboard copied'>
                     <FontAwesomeIcon icon={faClipboardCheck} /> Copied!
-                  </a>
+                  </button>
                 )}
-                <a
+                <button
                   id='new-quote'
                   className='new-quote'
                   style={{ background: currentColor }}
                   onClick={this.handleClick}
                 >
                   New quote
-                </a>
+                </button>
               </div>
             </>
           )}
         </figure>
         <footer className='footer'>
-          by <a href='https://ccrsxx.github.io/#contact'>ccrsxx</a>
+          by{' '}
+          <a
+            href='https://ccrsxx.github.io/#contact'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            ccrsxx
+          </a>
         </footer>
       </div>
     );

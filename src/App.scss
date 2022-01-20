@@ -60,8 +60,11 @@
   flex-wrap: wrap;
   margin-top: 2rem;
 
-  a {
+  a,
+  button {
     cursor: pointer;
+    border: 0;
+    color: white;
     margin: 1rem 0;
     margin-right: 2rem;
     font-size: 1.4rem;
@@ -70,17 +73,19 @@
     transition: background 1s ease-out, opacity 200ms ease-out;
   }
 
-  a:hover {
+  a:hover,
+  button:hover {
     opacity: 0.8;
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 360px) {
   .button-wrapper {
-    justify-content: space-between;
+    justify-content: center;
 
-    a {
-      margin: 1rem 2rem 1rem auto;
+    a,
+    button {
+      margin: 1rem !important;
     }
   }
 }
