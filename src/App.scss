@@ -10,7 +10,7 @@
   transition-property: background color;
 }
 
-.quote-box {
+.quote-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,9 +27,16 @@
   transition-property: box-shadow transform;
 }
 
-.quote-box:hover {
+.quote-container:hover {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
   transform: translateY(-5px);
+}
+
+.quote-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .quote-text {
@@ -56,7 +63,6 @@
 .button-wrapper {
   width: 100%;
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
   margin-top: 2rem;
 

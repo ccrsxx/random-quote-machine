@@ -13,7 +13,6 @@ interface DefaultData {
 }
 
 interface AppStates {
-  fade: boolean;
   copy: boolean;
   currentQuote: null | DefaultData['quoteData'];
   currentColor: null | string;
@@ -25,7 +24,6 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      fade: false,
       copy: false,
       currentQuote: null,
       currentColor: null,
@@ -55,15 +53,8 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
     )
       .then((res) => res.json())
       .then(({ quotes }) => this.setState({ quotes }))
+      .then(() => setTimeout(() => this.getRandomQuote(), 500))
       .catch((err) => console.log(err));
-  }
-
-  componentDidUpdate() {
-    if (!this.state.currentQuote) {
-      setTimeout(() => {
-        this.getRandomQuote();
-      }, 500);
-    }
   }
 
   getRandomQuote() {
@@ -91,9 +82,6 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
   }
 
   handleClick() {
-    this.setState({
-      fade: true
-    });
     this.getRandomQuote();
   }
 
@@ -110,12 +98,10 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
       this.setState({
         copy: false
       });
-    }, 2000);
+    }, 2500);
   }
 
   render() {
-    const fade = this.state.fade ? 'fade' : '';
-
     const [quoteData, currentColor] = [
       this.state.currentQuote,
       this.state.currentColor
@@ -131,55 +117,50 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
 
     return (
       <div className='App' style={mainColor}>
-        <figure id='quote-box' className='quote-box'>
-          {!this.state.currentQuote ? (
+        <div className='quote-container'>
+          {!mainColor ? (
             <img src={loading} alt='loading logo' />
           ) : (
-            <>
-              <blockquote
-                id='text'
-                className={`quote-text ${fade}`}
-                onAnimationEnd={() => this.setState({ fade: false })}
-              >
-                {quoteData.quote}
+            <figure id='quote-box' className='quote-box' key={Math.random()}>
+              <blockquote id='text' className='quote-text fade'>
+                <p>{quoteData.quote}</p>
               </blockquote>
-              <figcaption id='author' className={`quote-author ${fade}`}>
+              <figcaption id='author' className='quote-author fade'>
                 - {quoteData.author}
               </figcaption>
-              <div className='button-wrapper'>
-                <a
-                  id='tweet-quote'
-                  className='tweet-quote'
-                  href={`https://twitter.com/intent/tweet?text=${parsedText}`}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  <FontAwesomeIcon icon={faTwitter} /> Tweet
-                </a>
-                {!this.state.copy ? (
-                  <button
-                    className='copy-to-clipboard'
-                    onClick={this.handleCopy}
-                  >
-                    <FontAwesomeIcon icon={faClipboard} /> Copy
-                  </button>
-                ) : (
-                  <button className='copy-to-clipboard copied'>
-                    <FontAwesomeIcon icon={faClipboardCheck} /> Copied!
-                  </button>
-                )}
-                <button
-                  id='new-quote'
-                  className='new-quote'
-                  style={{ background: currentColor }}
-                  onClick={this.handleClick}
-                >
-                  New quote
-                </button>
-              </div>
-            </>
+            </figure>
           )}
-        </figure>
+          {mainColor && (
+            <div className='button-wrapper'>
+              <a
+                id='tweet-quote'
+                className='tweet-quote'
+                href={`https://twitter.com/intent/tweet?text=${parsedText}`}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <FontAwesomeIcon icon={faTwitter} /> Tweet
+              </a>
+              {!this.state.copy ? (
+                <button className='copy-to-clipboard' onClick={this.handleCopy}>
+                  <FontAwesomeIcon icon={faClipboard} /> Copy
+                </button>
+              ) : (
+                <button className='copy-to-clipboard copied'>
+                  <FontAwesomeIcon icon={faClipboardCheck} /> Copied!
+                </button>
+              )}
+              <button
+                id='new-quote'
+                className='new-quote'
+                style={{ background: currentColor }}
+                onClick={this.handleClick}
+              >
+                New quote
+              </button>
+            </div>
+          )}
+        </div>
         <footer className='footer'>
           by{' '}
           <a
