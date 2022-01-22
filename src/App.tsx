@@ -13,9 +13,9 @@ interface DefaultData {
 }
 
 interface AppStates {
-  copy: boolean;
   currentQuote: null | DefaultData['quoteData'];
   currentColor: null | string;
+  isCopied: boolean;
   quotes: DefaultData['quoteData'][];
   colors: string[];
 }
@@ -24,9 +24,9 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      copy: false,
       currentQuote: null,
       currentColor: null,
+      isCopied: false,
       quotes: [],
       colors: [
         '#16a085',
@@ -91,12 +91,12 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
     );
 
     this.setState({
-      copy: true
+      isCopied: true
     });
 
     setTimeout(() => {
       this.setState({
-        copy: false
+        isCopied: false
       });
     }, 2500);
   }
@@ -121,7 +121,7 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
           {!mainColor ? (
             <img src={loading} alt='loading logo' />
           ) : (
-            <figure id='quote-box' className='quote-box' key={Math.random()}>
+            <figure id='quote-box' className='quote-box' key={parsedText}>
               <blockquote id='text' className='quote-text fade'>
                 <p>{quoteData.quote}</p>
               </blockquote>
@@ -141,7 +141,7 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
               >
                 <FontAwesomeIcon icon={faTwitter} /> Tweet
               </a>
-              {!this.state.copy ? (
+              {!this.state.isCopied ? (
                 <button className='copy-to-clipboard' onClick={this.handleCopy}>
                   <FontAwesomeIcon icon={faClipboard} /> Copy
                 </button>
