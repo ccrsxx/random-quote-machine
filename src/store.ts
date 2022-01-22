@@ -1,68 +1,69 @@
-// import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers } from 'redux';
 
-// const CHANGE_QUOTE_DATA = 'CHANGE_QUOTE_DATA';
-// const CHANGE_COLOR = 'CHANGE_COLOR';
-// const TOGGLE_COPY = 'TOGGLE_COPY';
+interface reducers {
+  type: string;
+}
 
-// interface reducers {
-//   type: string;
-//   [key: string]: any;
-// }
+interface currentQuoteType extends reducers {
+  quote: { quote: string; author: string };
+}
 
-// const quoteDataReducer = (state = null, action: reducers) => {
-//   switch (action.type) {
-//     case CHANGE_QUOTE_DATA:
-//       return action.quoteData;
-//     default:
-//       return state;
-//   }
-// };
+interface currentColorType extends reducers {
+  color: string;
+}
+const CHANGE_QUOTE_DATA = 'CHANGE_QUOTE_DATA';
+const CHANGE_COLOR = 'CHANGE_COLOR';
+const TOGGLE_COPY = 'TOGGLE_COPY';
 
-// const changeQuoteData = (quoteData: string) => ({
-//   type: CHANGE_QUOTE_DATA,
-//   quoteData
-// });
+const quoteDataReducer = (state = null, action: currentQuoteType) => {
+  switch (action.type) {
+    case CHANGE_QUOTE_DATA:
+      return action.quote;
+    default:
+      return state;
+  }
+};
 
-// const colorReducer = (state = null, action: reducers) => {
-//   switch (action.type) {
-//     case CHANGE_COLOR:
-//       return action.color;
-//     default:
-//       return state;
-//   }
-// };
+const changeQuote = (quoteData: currentQuoteType['quote']) => ({
+  type: CHANGE_QUOTE_DATA,
+  quoteData
+});
 
-// const changeColor = (color: reducers) => ({
-//   type: CHANGE_COLOR,
-//   color
-// });
+const colorReducer = (state = null, action: currentColorType) => {
+  switch (action.type) {
+    case CHANGE_COLOR:
+      return action.color;
+    default:
+      return state;
+  }
+};
 
-// const copyReducer = (state = false, action: reducers) => {
-//   switch (action.type) {
-//     case TOGGLE_COPY:
-//       return !state;
-//     default:
-//       return state;
-//   }
-// };
+const changeColor = (color: currentColorType['color']) => ({
+  type: CHANGE_COLOR,
+  color
+});
 
-// const toggleFlip = () => ({
-//   type: TOGGLE_COPY
-// });
+const copyReducer = (state = false, action: reducers) => {
+  switch (action.type) {
+    case TOGGLE_COPY:
+      return !state;
+    default:
+      return state;
+  }
+};
 
-// const rootReducers = combineReducers({
-//   currentQuote: quoteDataReducer,
-//   currentColor: colorReducer,
-//   copy: copyReducer
-// });
+const toggleFlip = () => ({
+  type: TOGGLE_COPY
+});
 
-// const store = createStore(rootReducers);
+const rootReducers = combineReducers({
+  currentQuote: quoteDataReducer,
+  currentColor: colorReducer,
+  copy: copyReducer
+});
 
-// console.log(store);
-// console.log(store.getState());
+const store = createStore(rootReducers);
 
-// store.dispatch(toggleFlip());
+export default store;
 
-// console.log(store.getState());
-
-export default undefined;
+export { changeQuote, changeColor, toggleFlip };

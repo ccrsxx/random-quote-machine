@@ -12,6 +12,12 @@ interface DefaultData {
   quoteData: { quote: string; author: string };
 }
 
+interface AppProps {
+  copy: boolean;
+  currentQuote: null | DefaultData['quoteData'];
+  currentColor: null | string;
+}
+
 interface AppStates {
   copy: boolean;
   currentQuote: null | DefaultData['quoteData'];
@@ -121,7 +127,7 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
           {!mainColor ? (
             <img src={loading} alt='loading logo' />
           ) : (
-            <figure id='quote-box' className='quote-box' key={Math.random()}>
+            <figure id='quote-box' className='quote-box' key={parsedText}>
               <blockquote id='text' className='quote-text fade'>
                 <p>{quoteData.quote}</p>
               </blockquote>
