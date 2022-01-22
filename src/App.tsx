@@ -8,25 +8,28 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import loading from './loading.svg';
 import './App.scss';
 
-interface DefaultData {
-  quoteData: { quote: string; author: string };
+type quoteData = { quote: string; author: string };
+type CallbackFunction = () => void;
+type CallbackFunctionVariadic = (arg: any) => void;
+
+interface AppProps {
+  isCopied: boolean;
+  currentQuote: null | quoteData;
+  currentColor: null | string;
+  changeCurrentQuote: CallbackFunctionVariadic;
+  changeCurrentColor: CallbackFunctionVariadic;
+  toggleCopy: CallbackFunction;
 }
 
 interface AppStates {
-  currentQuote: null | DefaultData['quoteData'];
-  currentColor: null | string;
-  isCopied: boolean;
-  quotes: DefaultData['quoteData'][];
+  quotes: quoteData[];
   colors: string[];
 }
 
-class RandomQuoteMachine extends Component<{}, AppStates> {
-  constructor(props: {}) {
+class RandomQuoteMachine extends Component<AppProps, AppStates> {
+  constructor(props: AppProps) {
     super(props);
     this.state = {
-      currentQuote: null,
-      currentColor: null,
-      isCopied: false,
       quotes: [],
       colors: [
         '#16a085',
@@ -58,27 +61,25 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
   }
 
   getRandomQuote() {
-    let currentData: [AppStates['currentQuote'], AppStates['currentColor']] = [
-      this.state.currentQuote,
-      this.state.currentColor
+    let currentData: [AppProps['currentQuote'], AppProps['currentColor']] = [
+      this.props.currentQuote,
+      this.props.currentColor
     ];
 
     let [quote, color] = currentData;
 
     while (
-      this.state.currentQuote === quote ||
-      this.state.currentColor === color
+      this.props.currentQuote === quote ||
+      this.props.currentColor === color
     ) {
       currentData = [this.state.quotes, this.state.colors].map(
         (item) => item[Math.floor(Math.random() * item.length)]
-      ) as [DefaultData['quoteData'], string];
+      ) as [quoteData, string];
       [quote, color] = currentData;
     }
 
-    this.setState({
-      currentQuote: quote,
-      currentColor: color
-    });
+    this.props.changeCurrentQuote(quote);
+    this.props.changeCurrentColor(color);
   }
 
   handleClick() {
@@ -87,25 +88,21 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
 
   handleCopy() {
     navigator.clipboard.writeText(
-      `${this.state.currentQuote?.quote} From ${this.state.currentQuote?.author}.`
+      `${this.props.currentQuote?.quote} From ${this.props.currentQuote?.author}.`
     );
 
-    this.setState({
-      isCopied: true
-    });
+    this.props.toggleCopy();
 
     setTimeout(() => {
-      this.setState({
-        isCopied: false
-      });
+      this.props.toggleCopy();
     }, 2500);
   }
 
   render() {
     const [quoteData, currentColor] = [
-      this.state.currentQuote,
-      this.state.currentColor
-    ] as [DefaultData['quoteData'], string];
+      this.props.currentQuote,
+      this.props.currentColor
+    ] as [quoteData, string];
 
     const mainColor = currentColor
       ? { color: currentColor, background: currentColor }
@@ -141,7 +138,7 @@ class RandomQuoteMachine extends Component<{}, AppStates> {
               >
                 <FontAwesomeIcon icon={faTwitter} /> Tweet
               </a>
-              {!this.state.isCopied ? (
+              {!this.props.isCopied ? (
                 <button className='copy-to-clipboard' onClick={this.handleCopy}>
                   <FontAwesomeIcon icon={faClipboard} /> Copy
                 </button>
