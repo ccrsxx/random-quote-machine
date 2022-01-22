@@ -1,6 +1,6 @@
 const TOGGLE_COPY = 'TOGGLE_COPY';
 
-export interface copy {
+interface copy {
   type: string;
 }
 

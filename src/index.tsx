@@ -1,27 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux';
-import { changeQuote, changeColor, toggleCopy } from './reducers';
-import rootReducers from './reducers';
-import { RootState } from './reducers';
+import rootReducers, {
+  changeQuote,
+  changeColor,
+  toggleCopy,
+  RootState
+} from './reducers';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { createStore, Store } from 'redux';
 
 const store = createStore(rootReducers);
 
 const mapStateToProps = (state: RootState) => ({
   currentQuote: state.currentQuote,
   currentColor: state.currentColor,
-  copy: state.isCopied
+  isCopied: state.isCopied
 });
 
 const mapDispatchToProps = (dispatch = store.dispatch) => ({
-  changeCurrentQuote(quote) {
+  changeCurrentQuote(quote: { quote: string; author: string }) {
     dispatch(changeQuote(quote));
   },
-  changeCurrentColor(color) {
+  changeCurrentColor(color: string) {
     dispatch(changeColor(color));
   },
   toggleCopy() {

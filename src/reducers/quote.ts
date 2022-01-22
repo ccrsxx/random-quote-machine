@@ -1,20 +1,20 @@
 const CHANGE_QUOTE_DATA = 'CHANGE_QUOTE_DATA';
 
-export interface currentQuoteType {
+interface currentQuoteType {
   type: string;
-  quote: { quote: string; author: string };
+  quoteData: { quote: string; author: string };
 }
 
 const quoteReducer = (state = null, action: currentQuoteType) => {
   switch (action.type) {
     case CHANGE_QUOTE_DATA:
-      return action.quote;
+      return action.quoteData;
     default:
       return state;
   }
 };
 
-export const changeQuote = (quoteData: currentQuoteType['quote']) => ({
+export const changeQuote = (quoteData: currentQuoteType['quoteData']) => ({
   type: CHANGE_QUOTE_DATA,
   quoteData
 });
