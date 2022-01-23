@@ -13,9 +13,9 @@ type CallbackFunction = () => void;
 type CallbackFunctionVariadic = (arg: any) => void;
 
 interface AppProps {
-  isCopied: boolean;
   currentQuote: null | quoteData;
   currentColor: null | string;
+  isCopied: boolean;
   changeCurrentQuote: CallbackFunctionVariadic;
   changeCurrentColor: CallbackFunctionVariadic;
   toggleCopy: CallbackFunction;
@@ -118,44 +118,47 @@ class RandomQuoteMachine extends Component<AppProps, AppStates> {
           {!mainColor ? (
             <img src={loading} alt='loading logo' />
           ) : (
-            <figure id='quote-box' className='quote-box' key={parsedText}>
-              <blockquote id='text' className='quote-text fade'>
-                <p>{quoteData.quote}</p>
-              </blockquote>
-              <figcaption id='author' className='quote-author fade'>
-                - {quoteData.author}
-              </figcaption>
-            </figure>
-          )}
-          {mainColor && (
-            <div className='button-wrapper'>
-              <a
-                id='tweet-quote'
-                className='tweet-quote'
-                href={`https://twitter.com/intent/tweet?text=${parsedText}`}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <FontAwesomeIcon icon={faTwitter} /> Tweet
-              </a>
-              {!this.props.isCopied ? (
-                <button className='copy-to-clipboard' onClick={this.handleCopy}>
-                  <FontAwesomeIcon icon={faClipboard} /> Copy
+            <>
+              <figure id='quote-box' className='quote-box' key={parsedText}>
+                <blockquote id='text' className='quote-text fade'>
+                  <p>{quoteData.quote}</p>
+                </blockquote>
+                <figcaption id='author' className='quote-author fade'>
+                  - {quoteData.author}
+                </figcaption>
+              </figure>
+              <div className='button-wrapper'>
+                <a
+                  id='tweet-quote'
+                  className='tweet-quote'
+                  href={`https://twitter.com/intent/tweet?text=${parsedText}`}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  <FontAwesomeIcon icon={faTwitter} /> Tweet
+                </a>
+                {!this.props.isCopied ? (
+                  <button
+                    className='copy-to-clipboard'
+                    onClick={this.handleCopy}
+                  >
+                    <FontAwesomeIcon icon={faClipboard} /> Copy
+                  </button>
+                ) : (
+                  <button className='copy-to-clipboard copied'>
+                    <FontAwesomeIcon icon={faClipboardCheck} /> Copied!
+                  </button>
+                )}
+                <button
+                  id='new-quote'
+                  className='new-quote'
+                  style={{ background: currentColor }}
+                  onClick={this.handleClick}
+                >
+                  New quote
                 </button>
-              ) : (
-                <button className='copy-to-clipboard copied'>
-                  <FontAwesomeIcon icon={faClipboardCheck} /> Copied!
-                </button>
-              )}
-              <button
-                id='new-quote'
-                className='new-quote'
-                style={{ background: currentColor }}
-                onClick={this.handleClick}
-              >
-                New quote
-              </button>
-            </div>
+              </div>
+            </>
           )}
         </div>
         <footer className='footer'>
