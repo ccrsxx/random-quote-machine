@@ -66,6 +66,10 @@
   flex-wrap: wrap;
   margin-top: 2rem;
 
+  @media screen and (max-width: 360px) {
+    justify-content: center;
+  }
+
   a,
   button {
     cursor: pointer;
@@ -77,42 +81,34 @@
     padding: 1rem;
     border-radius: 4px;
     transition: background 1s ease-out, opacity 200ms ease-out;
+
+    @media screen and (max-width: 360px) {
+      margin: 1rem !important;
+    }
   }
 
   a:hover,
   button:hover {
     opacity: 0.8;
   }
-}
 
-@media screen and (max-width: 360px) {
-  .button-wrapper {
-    justify-content: center;
-
-    a,
-    button {
-      margin: 1rem !important;
-    }
+  .new-quote {
+    margin-right: 0;
+    background: var(--default-color);
   }
-}
 
-.new-quote {
-  margin-right: 0 !important;
-  background: var(--default-color);
-}
+  .copy-to-clipboard {
+    background: lightseagreen;
+  }
 
-.copy-to-clipboard {
-  background: lightseagreen;
-  transition: background 200ms ease-out !important;
-}
+  .copied {
+    background: lightcoral;
+  }
 
-.copied {
-  background: lightcoral;
-}
-
-.tweet-quote {
-  margin-left: auto !important;
-  background: hsl(204, 65%, 62%);
+  .tweet-quote {
+    margin-left: auto;
+    background: hsl(204, 65%, 62%);
+  }
 }
 
 .fade {

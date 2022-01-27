@@ -16,22 +16,16 @@ $default-color: hsl(0, 0%, 20%);
 
 html {
   font-size: var(--font-size);
-}
 
-@media screen and (max-width: 1200px) {
-  html {
+  @media screen and (max-width: 1200px) {
     font-size: 60%;
   }
-}
 
-@media screen and (max-width: 980px) {
-  html {
+  @media screen and (max-width: 980px) {
     font-size: 58%;
   }
-}
 
-@media screen and (max-width: 480px) {
-  html {
+  @media screen and (max-width: 480px) {
     font-size: 55%;
   }
 }

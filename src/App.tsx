@@ -1,16 +1,11 @@
 import { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faClipboard,
-  faClipboardCheck
-} from '@fortawesome/free-solid-svg-icons';
-import { faTwitter } from '@fortawesome/free-brands-svg-icons';
-import loading from './loading.svg';
+import { Loading, Figure, Button, Footer } from './components';
+import type {
+  quoteData,
+  CallbackFunction,
+  CallbackFunctionVariadic
+} from './utils';
 import './App.scss';
-
-type quoteData = { quote: string; author: string };
-type CallbackFunction = () => void;
-type CallbackFunctionVariadic = (arg: any) => void;
 
 interface AppProps {
   currentQuote: null | quoteData;
@@ -52,7 +47,7 @@ class RandomQuoteMachine extends Component<AppProps, AppStates> {
 
   componentDidMount() {
     fetch(
-      'https://raw.githubusercontent.com/ccrsxx/random-quote-machine/main/assets/quotes.json'
+      'https://raw.githubusercontent.com/ccrsxx/random-quote-machine/main/src/assets/quotes.json'
     )
       .then((res) => res.json())
       .then(({ quotes }) => this.setState({ quotes }))
@@ -116,61 +111,21 @@ class RandomQuoteMachine extends Component<AppProps, AppStates> {
       <div className='App' style={mainColor}>
         <div className='quote-container'>
           {!mainColor ? (
-            <img src={loading} alt='loading logo' />
+            <Loading />
           ) : (
             <>
-              <figure id='quote-box' className='quote-box' key={parsedText}>
-                <blockquote id='text' className='quote-text fade'>
-                  <p>{quoteData.quote}</p>
-                </blockquote>
-                <figcaption id='author' className='quote-author fade'>
-                  - {quoteData.author}
-                </figcaption>
-              </figure>
-              <div className='button-wrapper'>
-                <a
-                  id='tweet-quote'
-                  className='tweet-quote'
-                  href={`https://twitter.com/intent/tweet?text=${parsedText}`}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  <FontAwesomeIcon icon={faTwitter} /> Tweet
-                </a>
-                {!this.props.isCopied ? (
-                  <button
-                    className='copy-to-clipboard'
-                    onClick={this.handleCopy}
-                  >
-                    <FontAwesomeIcon icon={faClipboard} /> Copy
-                  </button>
-                ) : (
-                  <button className='copy-to-clipboard copied'>
-                    <FontAwesomeIcon icon={faClipboardCheck} /> Copied!
-                  </button>
-                )}
-                <button
-                  id='new-quote'
-                  className='new-quote'
-                  style={{ background: currentColor }}
-                  onClick={this.handleClick}
-                >
-                  New quote
-                </button>
-              </div>
+              <Figure parsedText={parsedText} quoteData={quoteData} />
+              <Button
+                isCopied={this.props.isCopied}
+                parsedText={parsedText}
+                currentColor={currentColor}
+                handleClick={this.handleClick}
+                handleCopy={this.handleCopy}
+              />
             </>
           )}
         </div>
-        <footer className='footer'>
-          by{' '}
-          <a
-            href='https://ccrsxx.github.io/#contact'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            ccrsxx
-          </a>
-        </footer>
+        <Footer />
       </div>
     );
   }
