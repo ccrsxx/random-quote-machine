@@ -14,9 +14,9 @@ const quoteReducer = (state = null, action: currentQuoteType) => {
   }
 };
 
-export const changeQuote = (quoteData: currentQuoteType['quoteData']) => ({
+const changeQuote = (quoteData: currentQuoteType['quoteData']) => ({
   type: CHANGE_QUOTE_DATA,
   quoteData
 });
 
-export default quoteReducer;
+export { quoteReducer, changeQuote };

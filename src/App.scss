@@ -25,11 +25,11 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
   transition: all 200ms ease-out;
   transition-property: box-shadow transform;
-}
 
-.quote-container:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
-  transform: translateY(-5px);
+  &:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+  }
 }
 
 .quote-box {
@@ -37,27 +37,27 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
 
-.quote-text {
-  position: relative;
-  font-size: 3rem;
-  font-weight: 500;
-  padding: 2rem 3rem;
-  margin-left: 1rem;
-}
+  .quote-text {
+    position: relative;
+    font-size: 3rem;
+    font-weight: 500;
+    padding: 2rem 3rem;
+    margin-left: 1rem;
 
-.quote-text::before {
-  content: open-quote;
-  position: absolute;
-  font-size: 10rem;
-  top: -0.5rem;
-  left: -1rem;
-}
+    &::before {
+      content: open-quote;
+      position: absolute;
+      font-size: 10rem;
+      top: -0.5rem;
+      left: -1rem;
+    }
+  }
 
-.quote-author {
-  align-self: flex-end;
-  margin-bottom: 1rem;
+  .quote-author {
+    align-self: flex-end;
+    margin-bottom: 1rem;
+  }
 }
 
 .button-wrapper {
@@ -99,6 +99,7 @@
 
   .copy-to-clipboard {
     background: lightseagreen;
+    transition: opacity 200ms ease-out, background 100ms ease-out;
   }
 
   .copied {

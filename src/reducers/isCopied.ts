@@ -13,8 +13,8 @@ const copyReducer = (state = false, action: copy) => {
   }
 };
 
-export const toggleCopy = () => ({
+const toggleCopy = () => ({
   type: TOGGLE_COPY
 });
 
-export default copyReducer;
+export { copyReducer, toggleCopy };

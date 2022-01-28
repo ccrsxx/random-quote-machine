@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import quoteReducer, { changeQuote } from './quote';
-import colorReducer, { changeColor } from './color';
-import copyReducer, { toggleCopy } from './isCopied';
+import { quoteReducer, changeQuote } from './quote';
+import { colorReducer, changeColor } from './color';
+import { copyReducer, toggleCopy } from './isCopied';
 
 const rootReducers = combineReducers({
   currentQuote: quoteReducer,

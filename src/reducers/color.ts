@@ -14,9 +14,9 @@ const colorReducer = (state = null, action: currentColorType) => {
   }
 };
 
-export const changeColor = (color: currentColorType['color']) => ({
+const changeColor = (color: currentColorType['color']) => ({
   type: CHANGE_COLOR,
   color
 });
 
-export default colorReducer;
+export { colorReducer, changeColor };
