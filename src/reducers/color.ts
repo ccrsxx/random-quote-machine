@@ -5,7 +5,7 @@ interface currentColorType {
   color: string;
 }
 
-const colorReducer = (state = null, action: currentColorType) => {
+export const colorReducer = (state = null, action: currentColorType) => {
   switch (action.type) {
     case CHANGE_COLOR:
       return action.color;
@@ -14,9 +14,7 @@ const colorReducer = (state = null, action: currentColorType) => {
   }
 };
 
-const changeColor = (color: currentColorType['color']) => ({
+export const changeColor = (color: currentColorType['color']) => ({
   type: CHANGE_COLOR,
   color
 });
-
-export { colorReducer, changeColor };

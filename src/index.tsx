@@ -9,7 +9,7 @@ import rootReducers, {
   toggleCopy,
   RootState
 } from './reducers';
-import './index.scss';
+import './styles/index.scss';
 
 const store = createStore(rootReducers);
 

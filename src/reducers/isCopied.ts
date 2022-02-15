@@ -4,7 +4,7 @@ interface copy {
   type: string;
 }
 
-const copyReducer = (state = false, action: copy) => {
+export const copyReducer = (state = false, action: copy) => {
   switch (action.type) {
     case TOGGLE_COPY:
       return !state;
@@ -13,8 +13,6 @@ const copyReducer = (state = false, action: copy) => {
   }
 };
 
-const toggleCopy = () => ({
+export const toggleCopy = () => ({
   type: TOGGLE_COPY
 });
-
-export { copyReducer, toggleCopy };

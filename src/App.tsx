@@ -4,8 +4,7 @@ import type {
   quoteData,
   CallbackFunction,
   CallbackFunctionVariadic
-} from './utils';
-import './App.scss';
+} from './common';
 
 interface AppProps {
   currentQuote: null | quoteData;

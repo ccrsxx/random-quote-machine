@@ -4,7 +4,7 @@ import {
   faClipboard,
   faClipboardCheck,
   CallbackFunction
-} from '../utils';
+} from '../common';
 
 interface ButtonProps {
   isCopied: boolean;
