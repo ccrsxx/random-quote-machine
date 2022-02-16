@@ -26,6 +26,7 @@ export default function App() {
   const [currentColor, setCurrentColor] = useState<ColorData>(null);
   const [isCopied, setIsCopied] = useState(false);
 
+  // fetch quotes on mount and set current quote after quotes are fetched
   useEffect(() => {
     if (!quotes.length) {
       setTimeout(() => setQuotes(Data), 500);
@@ -57,6 +58,7 @@ export default function App() {
     setTimeout(() => setIsCopied(false), 2500);
   };
 
+  // check if the quotes are loaded and change color on click
   const [quote, color] = [currentQuote, currentColor] as [QuoteData, string];
   const mainColor = color ? { color, background: color } : undefined;
   const parsedText = quote ? `${quote.quote} From ${quote.author}.` : '';
