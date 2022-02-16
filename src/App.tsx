@@ -1,133 +1,85 @@
-import { Component } from 'react';
-import { Loading, Figure, Button, Footer } from './components';
-import type {
-  quoteData,
-  CallbackFunction,
-  CallbackFunctionVariadic
-} from './common';
+import { useState, useEffect } from 'react';
+import { Loading, Quote, Button, Footer } from './components';
+import { quotes as Data } from './assets';
 
-interface AppProps {
-  currentQuote: null | quoteData;
-  currentColor: null | string;
-  isCopied: boolean;
-  changeCurrentQuote: CallbackFunctionVariadic;
-  changeCurrentColor: CallbackFunctionVariadic;
-  toggleCopy: CallbackFunction;
-}
+type QuoteData = null | { quote: string; author: string };
+type ColorData = null | string;
 
-interface AppStates {
-  quotes: quoteData[];
-  colors: string[];
-}
+const COLORS = [
+  '#16a085',
+  '#27ae60',
+  '#2c3e50',
+  '#f39c12',
+  '#e74c3c',
+  '#9b59b6',
+  '#FB6964',
+  '#342224',
+  '#472E32',
+  '#BDBB99',
+  '#77B1A9',
+  '#73A857'
+];
 
-class RandomQuoteMachine extends Component<AppProps, AppStates> {
-  constructor(props: AppProps) {
-    super(props);
-    this.state = {
-      quotes: [],
-      colors: [
-        '#16a085',
-        '#27ae60',
-        '#2c3e50',
-        '#f39c12',
-        '#e74c3c',
-        '#9b59b6',
-        '#FB6964',
-        '#342224',
-        '#472E32',
-        '#BDBB99',
-        '#77B1A9',
-        '#73A857'
-      ]
-    };
-    this.handleClick = this.handleClick.bind(this);
-    this.handleCopy = this.handleCopy.bind(this);
-  }
+export default function App() {
+  const [quotes, setQuotes] = useState<QuoteData[]>([]);
+  const [currentQuote, setCurrentQuote] = useState<QuoteData>(null);
+  const [currentColor, setCurrentColor] = useState<ColorData>(null);
+  const [isCopied, setIsCopied] = useState(false);
 
-  componentDidMount() {
-    fetch(
-      'https://raw.githubusercontent.com/ccrsxx/random-quote-machine/main/src/assets/quotes.json'
-    )
-      .then((res) => res.json())
-      .then(({ quotes }) => this.setState({ quotes }))
-      .then(() => setTimeout(() => this.getRandomQuote(), 500))
-      .catch((err) => console.log(err));
-  }
+  useEffect(() => {
+    if (!quotes.length) {
+      setTimeout(() => setQuotes(Data), 500);
+    } else {
+      handleClick();
+    }
+  }, [quotes]);
 
-  getRandomQuote() {
-    let currentData: [AppProps['currentQuote'], AppProps['currentColor']] = [
-      this.props.currentQuote,
-      this.props.currentColor
-    ];
+  const handleClick = () => {
+    let currentData: [QuoteData, ColorData] = [currentQuote, currentColor];
+    let [newQuote, newColor] = currentData;
 
-    let [quote, color] = currentData;
-
-    while (
-      this.props.currentQuote === quote ||
-      this.props.currentColor === color
-    ) {
-      currentData = [this.state.quotes, this.state.colors].map(
+    while (currentQuote === newQuote || currentColor === newColor) {
+      currentData = [quotes, COLORS].map(
         (item) => item[Math.floor(Math.random() * item.length)]
-      ) as [quoteData, string];
-      [quote, color] = currentData;
+      ) as [QuoteData, string];
+      [newQuote, newColor] = currentData;
     }
 
-    this.props.changeCurrentQuote(quote);
-    this.props.changeCurrentColor(color);
-  }
+    setCurrentQuote(newQuote);
+    setCurrentColor(newColor);
+  };
 
-  handleClick() {
-    this.getRandomQuote();
-  }
-
-  handleCopy() {
+  const handleCopy = () => {
     navigator.clipboard.writeText(
-      `${this.props.currentQuote?.quote} From ${this.props.currentQuote?.author}.`
+      `${currentQuote!.quote} From ${currentQuote!.author}.`
     );
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2500);
+  };
 
-    this.props.toggleCopy();
+  const [quote, color] = [currentQuote, currentColor] as [QuoteData, string];
+  const mainColor = color ? { color, background: color } : undefined;
+  const parsedText = quote ? `${quote.quote} From ${quote.author}.` : '';
 
-    setTimeout(() => {
-      this.props.toggleCopy();
-    }, 2500);
-  }
-
-  render() {
-    const [quoteData, currentColor] = [
-      this.props.currentQuote,
-      this.props.currentColor
-    ] as [quoteData, string];
-
-    const mainColor = currentColor
-      ? { color: currentColor, background: currentColor }
-      : undefined;
-
-    const parsedText = quoteData
-      ? `${quoteData.quote} From ${quoteData.author}.`
-      : '';
-
-    return (
-      <div className='App' style={mainColor}>
-        <div className='quote-container'>
-          {!mainColor ? (
-            <Loading />
-          ) : (
-            <>
-              <Figure parsedText={parsedText} quoteData={quoteData} />
-              <Button
-                isCopied={this.props.isCopied}
-                parsedText={parsedText}
-                currentColor={currentColor}
-                handleClick={this.handleClick}
-                handleCopy={this.handleCopy}
-              />
-            </>
-          )}
-        </div>
-        <Footer />
-      </div>
-    );
-  }
+  return (
+    <div className='App' style={mainColor}>
+      <main className='quote-container'>
+        {!mainColor ? (
+          <Loading />
+        ) : (
+          <>
+            <Quote parsedText={parsedText} quote={quote!} />
+            <Button
+              isCopied={isCopied}
+              parsedText={parsedText}
+              currentColor={color}
+              handleClick={handleClick}
+              handleCopy={handleCopy}
+            />
+          </>
+        )}
+      </main>
+      <Footer />
+    </div>
+  );
 }
-
-export default RandomQuoteMachine;

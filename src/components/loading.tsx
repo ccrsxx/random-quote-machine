@@ -1,3 +1,5 @@
-import loading from '../assets/loading.svg';
+import { loading } from '../assets';
 
-export const Loading = () => <img src={loading} alt='loading logo' />;
+export function Loading() {
+  return <img src={loading} alt='loading logo' />;
+}

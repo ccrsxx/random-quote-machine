@@ -1,0 +1,37 @@
+.quote-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .quote-text {
+    animation: fade 1s ease-out;
+    position: relative;
+    font-size: 3rem;
+    font-weight: 500;
+    padding: 2rem 3rem;
+    margin-left: 1rem;
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    &::before {
+      content: open-quote;
+      position: absolute;
+      font-size: 10rem;
+      top: -0.5rem;
+      left: -1rem;
+    }
+  }
+
+  .quote-author {
+    align-self: flex-end;
+    margin-bottom: 1rem;
+  }
+}

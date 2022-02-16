@@ -1,0 +1,50 @@
+.button-wrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+
+  @media screen and (max-width: 360px) {
+    justify-content: center;
+  }
+
+  a,
+  button {
+    cursor: pointer;
+    border: 0;
+    color: white;
+    margin: 1rem 0;
+    margin-right: 2rem;
+    font-size: 1.4rem;
+    padding: 1rem;
+    border-radius: 4px;
+    transition: background 1s ease-out, filter 200ms ease-out;
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+
+    @media screen and (max-width: 360px) {
+      margin: 1rem !important;
+    }
+  }
+
+  .new-quote {
+    margin-right: 0;
+    background: var(--default-color);
+  }
+
+  .copy-to-clipboard {
+    background: lightseagreen;
+    transition: opacity 200ms ease-out, background 100ms ease-out;
+  }
+
+  .copied {
+    background: lightcoral;
+  }
+
+  .tweet-quote {
+    margin-left: auto;
+    background: hsl(204, 65%, 62%);
+  }
+}

@@ -1,0 +1,42 @@
+body {
+  font: 1.6rem/1.4 var(--main-font);
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--default-color);
+  color: var(--default-color);
+  transition: all 1s ease-out;
+  transition-property: background color;
+
+  .quote-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 55rem;
+    min-width: 30rem;
+    min-height: 30rem;
+    padding: 4rem;
+    margin: 2rem;
+    border-radius: 4px;
+    background: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+    transition: all 200ms ease-out;
+    transition-property: box-shadow transform;
+
+    &:hover {
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+      transform: translateY(-5px);
+    }
+  }
+}

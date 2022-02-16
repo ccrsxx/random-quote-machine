@@ -1,46 +1,57 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  FontAwesomeIcon,
-  faTwitter,
   faClipboard,
-  faClipboardCheck,
-  CallbackFunction
-} from '../common';
+  faClipboardCheck
+} from '@fortawesome/free-solid-svg-icons';
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 interface ButtonProps {
   isCopied: boolean;
   parsedText: string;
   currentColor: string;
-  handleClick: CallbackFunction;
-  handleCopy: CallbackFunction;
+  handleClick: () => void;
+  handleCopy: () => void;
 }
 
-export const Button = (props: ButtonProps) => (
-  <div className='button-wrapper'>
-    <a
-      id='tweet-quote'
-      className='tweet-quote'
-      href={`https://twitter.com/intent/tweet?text=${props.parsedText}`}
-      target='_blank'
-      rel='noopener noreferrer'
-    >
-      <FontAwesomeIcon icon={faTwitter} /> Tweet
-    </a>
-    {!props.isCopied ? (
-      <button className='copy-to-clipboard' onClick={props.handleCopy}>
-        <FontAwesomeIcon icon={faClipboard} /> Copy
+export function Button({
+  isCopied,
+  parsedText,
+  currentColor,
+  handleCopy,
+  handleClick
+}: ButtonProps) {
+  return (
+    <div className='button-wrapper'>
+      <a
+        type='button'
+        className='tweet-quote'
+        href={`https://twitter.com/intent/tweet?text=${parsedText}`}
+        target='_blank'
+        rel='noopener noreferrer'
+      >
+        <FontAwesomeIcon icon={faTwitter} /> Tweet
+      </a>
+      {!isCopied ? (
+        <button
+          type='button'
+          className='copy-to-clipboard'
+          onClick={handleCopy}
+        >
+          <FontAwesomeIcon icon={faClipboard} /> Copy
+        </button>
+      ) : (
+        <button type='button' className='copy-to-clipboard copied'>
+          <FontAwesomeIcon icon={faClipboardCheck} /> Copied!
+        </button>
+      )}
+      <button
+        type='button'
+        className='new-quote'
+        style={{ background: currentColor }}
+        onClick={handleClick}
+      >
+        New quote
       </button>
-    ) : (
-      <button className='copy-to-clipboard copied'>
-        <FontAwesomeIcon icon={faClipboardCheck} /> Copied!
-      </button>
-    )}
-    <button
-      id='new-quote'
-      className='new-quote'
-      style={{ background: props.currentColor }}
-      onClick={props.handleClick}
-    >
-      New quote
-    </button>
-  </div>
-);
+    </div>
+  );
+}

@@ -1,0 +1,15 @@
+.footer {
+  font-size: 1.8rem;
+  color: white;
+  margin: 1rem 0;
+
+  .author-link {
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: 150ms ease-out;
+
+    &:hover {
+      text-decoration-color: white;
+    }
+  }
+}

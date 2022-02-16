@@ -1,4 +1,4 @@
 export * from './Loading';
-export * from './Figure';
+export * from './Quote';
 export * from './Button';
 export * from './Footer';
