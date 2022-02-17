@@ -54,6 +54,7 @@ export default function App() {
     navigator.clipboard.writeText(
       `${currentQuote!.quote} From ${currentQuote!.author}.`
     );
+
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2500);
   };

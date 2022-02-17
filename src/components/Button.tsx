@@ -20,6 +20,9 @@ export function Button({
   handleCopy,
   handleClick
 }: ButtonProps) {
+  const copyButton = isCopied
+    ? { message: 'Copied!', style: 'copied', icon: faClipboardCheck }
+    : { message: 'Copy', style: '', icon: faClipboard };
   return (
     <div className='button-wrapper'>
       <a
@@ -31,19 +34,13 @@ export function Button({
       >
         <FontAwesomeIcon icon={faTwitter} /> Tweet
       </a>
-      {!isCopied ? (
-        <button
-          type='button'
-          className='copy-to-clipboard'
-          onClick={handleCopy}
-        >
-          <FontAwesomeIcon icon={faClipboard} /> Copy
-        </button>
-      ) : (
-        <button type='button' className='copy-to-clipboard copied'>
-          <FontAwesomeIcon icon={faClipboardCheck} /> Copied!
-        </button>
-      )}
+      <button
+        type='button'
+        className={`copy-to-clipboard ${copyButton.style}`}
+        onClick={handleCopy}
+      >
+        <FontAwesomeIcon icon={copyButton.icon} /> {copyButton.message}
+      </button>
       <button
         type='button'
         className='new-quote'
