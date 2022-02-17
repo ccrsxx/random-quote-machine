@@ -51,12 +51,14 @@ export default function App() {
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(
-      `${currentQuote!.quote} From ${currentQuote!.author}.`
-    );
+    if (!isCopied) {
+      navigator.clipboard.writeText(
+        `${currentQuote!.quote} From ${currentQuote!.author}.`
+      );
 
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2500);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2500);
+    }
   };
 
   // check if the quotes are loaded and change color on click
